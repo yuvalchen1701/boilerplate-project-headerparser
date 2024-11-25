@@ -24,6 +24,20 @@ app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
 });
 
+app.get('/api/whoami', (req, res) => {
+  // Used to get the client IP when behind a proxy ||
+  // Returns the IP address of the remote client directly connected to your server.
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const lang = req.headers['accept-language'];
+  const clientSoftware = req.headers['user-agent'];
+
+  res.json({
+  ipaddress: ip,
+  language: lang,
+  software: clientSoftware
+  });
+});
+
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
